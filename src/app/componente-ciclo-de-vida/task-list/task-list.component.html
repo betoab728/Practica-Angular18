@@ -1,0 +1,22 @@
+<div class="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
+  <h2 class="text-center text-3xl font-bold mb-4">Lista de Tareas</h2>
+  <div class="bg-white p-6 rounded shadow-lg w-full max-w-md">
+    <div class="flex items-center mb-4">
+      <input [(ngModel)]="newTask" placeholder="Nueva tarea" class="border rounded p-2 flex-1">
+      <button (click)="addTask()" class="bg-orange-300 text-white p-2 hover:bg-orange-400 ml-2 rounded">
+        Añadir Tarea
+      </button>
+    </div>
+
+    <ul class="list-disc pl-5">
+      <li *ngFor="let task of tasks" (click)="toggleTaskCompletion(task)" class="flex items-center mb-2 cursor-pointer">
+        <input type="checkbox" [checked]="task.completed" class="mr-2">
+        <span [class.completed]="task.completed" [ngClass]="{'line-through': task.completed}">{{ task.name }}</span>
+      </li>
+    </ul>
+
+    <app-task-counter [tasks]="tasks"></app-task-counter>
+  </div>
+</div>
+
+  
