@@ -1,41 +1,41 @@
-import { Component,OnInit } from '@angular/core';
-import { TaskCounterComponent } from '../task-counter/task-counter.component';
-import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { Task } from '../task.model';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { TaskCounterComponent } from '../task-counter/task-counter.component';
 
 @Component({
   selector: 'app-task-list',
-  standalone: true,
-  imports: [TaskCounterComponent,CommonModule,FormsModule],
   templateUrl: './task-list.component.html',
-  styleUrl: './task-list.component.css',
- 
+  styleUrls: ['./task-list.component.css'],
+  standalone: true,
+  imports: [FormsModule, CommonModule, TaskCounterComponent]
 })
-export class TaskListComponent implements OnInit {
 
- tasks: { name: string, completed: boolean }[] = [];
-  newTask: string = '';
+export class TaskListComponent {
+  tasks: Task[] = [];
+  newTaskDescription: string = '';
 
-  constructor() {}
-
-  ngOnInit(): void {
-    // Inicializar con algunas tareas predeterminadas
-    this.tasks = [
-      { name: 'Aprender Angular', completed: false },
-      { name: 'Leer un libro', completed: false }
-    ];
+  // Agregar una nueva tarea
+  addTask() {
+    if (this.newTaskDescription.trim() === '') return;
+    
+    const newTask: Task = {
+      id: this.tasks.length + 1,
+      description: this.newTaskDescription,
+      completed: false
+    };
+    this.tasks.push(newTask);
+    this.newTaskDescription = ''; // Limpiar input
   }
 
-  addTask(): void {
-    if (this.newTask.trim()) {
-      this.tasks.push({ name: this.newTask, completed: false });
-      this.newTask = '';
-    }
-  }
-
-  toggleTaskCompletion(task: { name: string, completed: boolean }): void {
+  // Marcar tarea como completada
+  toggleTaskCompletion(task: Task) {
     task.completed = !task.completed;
   }
 
-
+  // Eliminar una tarea
+  deleteTask(taskId: number) {
+    this.tasks = this.tasks.filter(task => task.id !== taskId);
+  }
 }

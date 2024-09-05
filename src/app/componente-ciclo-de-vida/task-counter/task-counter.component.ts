@@ -1,19 +1,20 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Task } from '../task.model';
 
 @Component({
   selector: 'app-task-counter',
-  standalone: true,
-  imports: [],
   templateUrl: './task-counter.component.html',
-  styleUrl: './task-counter.component.css'
+  styleUrls: ['./task-counter.component.css'],
+  standalone: true
 })
-export class TaskCounterComponent implements OnChanges {
+export class TaskCounterComponent {
+  @Input() tasks: Task[] = [];
 
-  @Input() tasks: { name: string, completed: boolean }[] = [];
-  activeTasksCount: number = 0;
-
-  ngOnChanges(): void {
-    this.activeTasksCount = this.tasks.filter(task => !task.completed).length;
+  get totalTasks(): number {
+    return this.tasks.length;
   }
 
+  get completedTasks(): number {
+    return this.tasks.filter(task => task.completed).length;
+  }
 }

@@ -1,22 +1,37 @@
-<div class="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
-  <h2 class="text-center text-3xl font-bold mb-4">Lista de Tareas</h2>
-  <div class="bg-white p-6 rounded shadow-lg w-full max-w-md">
-    <div class="flex items-center mb-4">
-      <input [(ngModel)]="newTask" placeholder="Nueva tarea" class="border rounded p-2 flex-1">
-      <button (click)="addTask()" class="bg-orange-300 text-white p-2 hover:bg-orange-400 ml-2 rounded">
-        Añadir Tarea
+<div class="max-w-lg mx-auto mt-10 p-5 bg-white shadow-lg rounded-lg">
+  <h2 class="text-2xl font-bold mb-4 text-center text-gray-800">To-Do List</h2>
+
+  <div class="flex items-center mb-4">
+    <input [(ngModel)]="newTaskDescription" 
+           placeholder="Nueva tarea" 
+           class="flex-grow p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+    <button (click)="addTask()" 
+            class="ml-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
+      Agregar
+    </button>
+  </div>
+
+  <ul class="space-y-3">
+    <li *ngFor="let task of tasks" class="flex items-center justify-between bg-gray-100 p-3 rounded-lg shadow-sm">
+      <div class="flex items-center">
+        <input type="checkbox" 
+               [checked]="task.completed" 
+               (change)="toggleTaskCompletion(task)" 
+               class="mr-3 h-5 w-5 text-blue-500 focus:ring-2 focus:ring-blue-500" />
+        <span [class.completed]="task.completed" 
+              [ngClass]="{ 'line-through text-gray-500': task.completed }" 
+              class="text-lg text-gray-800">
+          {{ task.description }}
+        </span>
+      </div>
+      <button (click)="deleteTask(task.id)" 
+              class="ml-4 px-2 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors">
+        Eliminar
       </button>
-    </div>
+    </li>
+  </ul>
 
-    <ul class="list-disc pl-5">
-      <li *ngFor="let task of tasks" (click)="toggleTaskCompletion(task)" class="flex items-center mb-2 cursor-pointer">
-        <input type="checkbox" [checked]="task.completed" class="mr-2">
-        <span [class.completed]="task.completed" [ngClass]="{'line-through': task.completed}">{{ task.name }}</span>
-      </li>
-    </ul>
-
+  <div class="mt-6 text-center">
     <app-task-counter [tasks]="tasks"></app-task-counter>
   </div>
 </div>
-
-  
